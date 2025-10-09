@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import * as SI from 'react-icons/si'
 
 const styles = {
@@ -8,9 +7,14 @@ const styles = {
   skillList: "flex flex-wrap justify-center gap-2 text-lg text-gray-800",
   skillItem: "bg-white border border-black/[0.1] rounded-xl px-4 py-2 flex items-center hover:scale-[1.15]",
   icon: "mr-2"
-};
+} as const;
 
-const skillsData = [
+interface SkillItem {
+  icon: React.ElementType;
+  name: string;
+}
+
+const skillsData: SkillItem[] = [
   { icon: SI.SiMicrosoftazure, name: "Azure" },
   { icon: SI.SiGooglecloud, name: "GCP" },
   { icon: SI.SiTerraform, name: "Terraform" },
@@ -33,7 +37,7 @@ const skillsData = [
   { icon: SI.SiJavascript, name: "JavaScript" },
 ];
 
-const interestsData = [
+const interestsData: SkillItem[] = [
   { icon: SI.SiAmazonaws, name: "AWS Cloud" },
   { icon: SI.SiJenkins, name: "Jenkins" },
   { icon: SI.SiNodedotjs, name: "Node.JS" },
@@ -46,17 +50,23 @@ const interestsData = [
   { icon: SI.SiPrisma, name: "Prisma" },
 ];
 
-const SkillItem = ({ Icon, name }) => (
+interface SkillItemProps {
+  Icon: React.ElementType;
+  name: string;
+}
+
+const SkillItem: React.FC<SkillItemProps> = ({ Icon, name }) => (
   <li className={styles.skillItem}>
     <Icon className={styles.icon} />{name}
   </li>
 );
 
-SkillItem.propTypes = {
-  Icon: PropTypes.elementType.isRequired,
-  name: PropTypes.string.isRequired,
-};
-const SkillSection = ({ title, items }) => (
+interface SkillSectionProps {
+  title: string;
+  items: SkillItem[];
+}
+
+const SkillSection: React.FC<SkillSectionProps> = ({ title, items }) => (
   <>
     <div className={`${styles.title} ${title === "Interested" ? "mt-12" : ""}`}>{title}</div>
     <ul className={styles.skillList}>
@@ -67,17 +77,7 @@ const SkillSection = ({ title, items }) => (
   </>
 );
 
-SkillSection.propTypes = {
-  title: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      icon: PropTypes.elementType.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
-
-const Skills = () => {
+const Skills: React.FC = () => {
   return (
     <section id="skill" className={styles.section}>
       <SkillSection title="Skills" items={skillsData} />

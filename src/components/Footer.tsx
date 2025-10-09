@@ -3,8 +3,8 @@ import { FaRegCopyright } from 'react-icons/fa';
 import { SiTailwindcss } from 'react-icons/si';
 import { TbBrandNextjs } from 'react-icons/tb';
 
-const Footer = () => {
-  const currentYear = new Date().getFullYear();
+const Footer: React.FC = () => {
+  const currentYear: number = new Date().getFullYear();
 
   return (
     <div className="bg-white text-black font-mono w-full p-2 z-50 text-sm sm:text-base transition-opacity duration-300">

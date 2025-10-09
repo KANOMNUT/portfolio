@@ -3,16 +3,30 @@ import React from 'react';
 import { MdStarOutline, MdWorkOutline } from 'react-icons/md';
 import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import PropTypes from 'prop-types';
 
-const timelineElementStyle = {
+interface TimelineElementStyle {
+  background: string;
+  border: string;
+  textAlign: 'left' | 'center' | 'right';
+  boxShadow: string;
+}
+
+const timelineElementStyle: TimelineElementStyle = {
   background: 'rgb(255, 255, 255)',
   border: "1px solid rgba(0, 0, 0, 0.05)",
   textAlign: "left",
   boxShadow: "10px 5px 5px lightgrey"
 };
 
-const experienceData = [
+interface ExperienceData {
+  title: string;
+  company: string;
+  location: string;
+  period: string;
+  description: string;
+}
+
+const experienceData: ExperienceData[] = [
   {
     title: "DevOps Engineer",
     company: "7Solutions Co.,Ltd.",
@@ -50,7 +64,15 @@ const experienceData = [
   }
 ];
 
-const TimelineElement = ({ title, company, location, period, description }) => (
+interface TimelineElementProps {
+  title: string;
+  company: string;
+  location: string;
+  period: string;
+  description: string;
+}
+
+const TimelineElement: React.FC<TimelineElementProps> = ({ title, company, location, period, description }) => (
   <VerticalTimelineElement
     className="vertical-timeline-element--work"
     contentStyle={timelineElementStyle}
@@ -68,15 +90,7 @@ const TimelineElement = ({ title, company, location, period, description }) => (
   </VerticalTimelineElement>
 );
 
-TimelineElement.propTypes = {
-  title: PropTypes.string.isRequired,
-  company: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  period: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-};
-
-const Experience = () => {
+const Experience: React.FC = () => {
   return (
     <section className="mb-25 text-center sm:mb-25 text-black">
       <h2 className="text-3xl mb-10 text-center font-mono">Work Experience</h2>

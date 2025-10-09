@@ -1,13 +1,24 @@
 'use client'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function NavLink({ to, children }) {
-  return <a href={to} className={`mx-4 my-5`}>
+interface NavLinkProps {
+  to: string;
+  children: React.ReactNode;
+  target?: string;
+}
+
+interface MobileNavProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+
+function NavLink({ to, children, target }: NavLinkProps): React.ReactElement {
+  return <a href={to} className={`mx-4 my-5`} target={target}>
     {children}
   </a>;
 }
 
-function MobileNav({ open, setOpen }) {
+function MobileNav({ open, setOpen }: MobileNavProps): React.ReactElement {
   return (
     <div className={`absolute top-0 left-0 h-screen w-screen bg-white transform ${open ? "-translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out filter drop-shadow-md `}>
       <button 
@@ -24,12 +35,12 @@ function MobileNav({ open, setOpen }) {
   );
 }
 
-export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [sticky, setSticky] = useState(false);
+export default function Navbar(): React.ReactElement {
+  const [open, setOpen] = useState<boolean>(false);
+  const [sticky, setSticky] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = (): void => {
       if (window.scrollY > 0) {
         setSticky(true);
       } else {
@@ -61,7 +72,7 @@ export default function Navbar() {
         aria-label={open ? "Close navigation menu" : "Open navigation menu"}
         tabIndex={0}
         type="button"
-        onKeyDown={e => {
+        onKeyDown={(e: React.KeyboardEvent) => {
           if (e.key === "Enter" || e.key === " ") {
             setOpen(!open);
           }
