@@ -79,10 +79,12 @@ const SkillSection: React.FC<SkillSectionProps> = ({ title, items }) => (
 
 const Skills: React.FC = () => {
   return (
-    <section id="skill" className={styles.section}>
-      <SkillSection title="Skills" items={skillsData} />
-      <SkillSection title="Interested" items={interestsData} />
-    </section>
+    <div id='skills'>
+      <section className={styles.section}>
+        <SkillSection title="Skills" items={skillsData} />
+        <SkillSection title="Interested" items={interestsData} />
+      </section>
+    </div>
   );
 };
 

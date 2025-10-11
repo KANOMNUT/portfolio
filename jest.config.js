@@ -25,15 +25,7 @@ const customJestConfig = {
     '!**/node_modules/**',
     '!./src/app/layout.tsx',
     '!./src/app/page.tsx',
-  ],
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
+  ]
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

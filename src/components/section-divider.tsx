@@ -3,7 +3,8 @@ import React from 'react';
 
 const SectionDivider: React.FC = () => {
   return (
-    <div id="skills" className="my-10 sm:my-20 h-20 w-1 rounded-full bg-slate-500">
+    <div id='section-divider' className="w-full flex justify-center my-10 sm:my-20">
+      <div className="h-1 w-60 rounded-full bg-slate-500" aria-hidden="true" />
     </div>
   );
 };

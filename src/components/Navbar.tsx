@@ -13,24 +13,28 @@ interface MobileNavProps {
 }
 
 function NavLink({ to, children, target }: NavLinkProps): React.ReactElement {
-  return <a href={to} className={`mx-4 my-5`} target={target}>
-    {children}
-  </a>;
+  const rel = target === '_blank' ? 'noopener noreferrer' : undefined;
+  return (
+    <a href={to} className={`mx-4 my-5`} target={target} rel={rel}>
+      {children}
+    </a>
+  );
 }
 
 function MobileNav({ open, setOpen }: MobileNavProps): React.ReactElement {
   return (
-    <div className={`absolute top-0 left-0 h-screen w-screen bg-white transform ${open ? "-translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out filter drop-shadow-md `}>
-      <button 
-        className="flex flex-col ml-14 mt-20 text-black text-xl font-mono text-left bg-transparent border-none" 
-        onClick={() => setTimeout(() => { setOpen(!open) }, 100)}
-        aria-label="Close mobile navigation"
-      >
-        <NavLink to='#about'>About</NavLink>
-        <NavLink to='#exp'>Experience</NavLink>
-        <NavLink to='#skills'>Skills</NavLink>
-        <NavLink to='https://stseakanomnutt.blob.core.windows.net/portfolio/ThanachaiT-Resume.pdf' target='_blank'>Resume</NavLink>
-      </button>
+    <div
+      role="dialog"
+      aria-hidden={!open}
+      aria-label="Mobile navigation"
+      className={`absolute top-0 left-0 h-screen w-screen bg-white transform ${open ? "-translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out filter drop-shadow-md `}
+    >
+      <nav className="flex flex-col ml-14 mt-20 text-black text-xl font-mono text-left" onClick={() => setOpen(false)}>
+        <a className="py-3" href="#about">About</a>
+        <a className="py-3" href="#exp">Experience</a>
+        <a className="py-3" href="#skills">Skills</a>
+        <a className="py-3" href="https://stseakanomnutt.blob.core.windows.net/portfolio/ThanachaiT-Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+      </nav>
     </div>
   );
 }
@@ -54,6 +58,25 @@ export default function Navbar(): React.ReactElement {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // Close on Escape and prevent body scroll when mobile menu is open
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+
+    if (open) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKey);
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKey);
+    };
+  }, [open]);
 
   return (
     <nav className={`flex w-full filter drop-shadow-md bg-white px-5 py-4 h-20 items-center ${sticky ? 'fixed top-0' : ''} z-50`}>

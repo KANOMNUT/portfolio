@@ -3,88 +3,114 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import Navbar from '@/components/Navbar';
 import '@testing-library/jest-dom';
 
-// Mock window.scrollY and scroll events
-const mockScroll = (scrollY: number) => {
-  Object.defineProperty(window, 'scrollY', {
-    value: scrollY,
-    writable: true,
-  });
-  act(() => {
-    window.dispatchEvent(new Event('scroll'));
-  });
-};
-
 describe('Navbar Component', () => {
-  beforeEach(() => {
-    // Mock window.scrollY
+  // Test data constants
+  const NAVIGATION_LINKS = ['ABOUT', 'WORK EXPERIENCE', 'SKILLS', 'RESUME'] as const;
+  const MOBILE_LINKS = [
+    { text: 'About', href: '#about' },
+    { text: 'Experience', href: '#exp' },
+    { text: 'Skills', href: '#skills' }
+  ] as const;
+
+  // Helper functions
+  const mockScrollY = (value: number) => {
     Object.defineProperty(window, 'scrollY', {
+      value,
       writable: true,
       configurable: true,
-      value: 0
+    });
+  };
+
+  const simulateScroll = (scrollY: number) => {
+    mockScrollY(scrollY);
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+  };
+
+  const toggleMobileMenu = () => {
+    const menuButton = screen.getByRole('button', { name: /Open navigation menu/i });
+    fireEvent.click(menuButton);
+    return menuButton;
+  };
+
+  const getMobileMenuElement = (isOpen: boolean) => {
+    const className = isOpen ? '.transform.-translate-x-0' : '.transform.-translate-x-full';
+    return document.querySelector(className);
+  };
+
+  beforeEach(() => {
+    mockScrollY(0);
+  });
+
+  describe('Navigation Links', () => {
+    it('renders all navigation links correctly', () => {
+      render(<Navbar />);
+      
+      NAVIGATION_LINKS.forEach(link => {
+        expect(screen.getByText(link)).toBeInTheDocument();
+      });
     });
   });
 
-  it('renders navigation links correctly', () => {
-    render(<Navbar />);
+  describe('Sticky Behavior', () => {
+    it('is not sticky initially', () => {
+      render(<Navbar />);
+      
+      const nav = screen.getByRole('navigation');
+      expect(nav).not.toHaveClass('fixed');
+    });
+
+    it('becomes sticky when scrolling down', () => {
+      render(<Navbar />);
+      
+      simulateScroll(100);
+      
+      const nav = screen.getByRole('navigation');
+      expect(nav).toHaveClass('fixed');
+    });
+
+    it('remains not sticky when scroll position is at top', () => {
+      render(<Navbar />);
     
-    // Check if all nav links are present
-    const expectedLinks = ['ABOUT', 'WORK EXPERIENCE', 'SKILLS', 'RESUME'];
-    expectedLinks.forEach(link => {
-      expect(screen.getByText(link)).toBeInTheDocument();
+      simulateScroll(100);
+      simulateScroll(0);
+      
+      const nav = screen.getByRole('navigation');
+      expect(nav).not.toHaveClass('fixed');
     });
   });
 
-  it('becomes sticky when scrolling', () => {
-    render(<Navbar />);
-    
-    // Initially not sticky
-    const nav = screen.getByRole('navigation');
-    expect(nav).not.toHaveClass('fixed');
-    
-    // Simulate scroll
-    window.scrollY = 100;
-    fireEvent.scroll(window);
-    
-    // Should be sticky now
-    expect(nav).toHaveClass('fixed');
-  });
+  describe('Mobile Menu', () => {
+    it('opens mobile menu when hamburger button is clicked', () => {
+      render(<Navbar />);
+      
+      toggleMobileMenu();
+      
+      const openMenu = getMobileMenuElement(true);
+      expect(openMenu).toBeInTheDocument();
+    });
 
-  it('handles mobile menu toggle correctly', () => {
-    render(<Navbar />);
-    
-    // Find and click hamburger menu button
-    const menuButton = screen.getByRole('button', { name: /Open navigation menu/i });
-    fireEvent.click(menuButton);
-    
-    // Check if mobile menu is visible
-    const mobileMenu = document.querySelector('.transform.-translate-x-0');
-    expect(mobileMenu).toBeInTheDocument();
-    
-    // Click again to close
-    fireEvent.click(menuButton);
-    
-    // Check if mobile menu is hidden
-    const closedMenu = document.querySelector('.transform.-translate-x-full');
-    expect(closedMenu).toBeInTheDocument();
-  });
+    it('closes mobile menu when hamburger button is clicked twice', () => {
+      render(<Navbar />);
+      
+      // Open then close
+      toggleMobileMenu();
+      toggleMobileMenu();
+      
+      const closedMenu = getMobileMenuElement(false);
+      expect(closedMenu).toBeInTheDocument();
+    });
 
-  it('mobile menu links work correctly', () => {
-    render(<Navbar />);
-    
-    // Open mobile menu
-    const menuButton = screen.getByRole('button', { name: /Open navigation menu/i });
-    fireEvent.click(menuButton);
-    
-    // Check if all mobile links are present and have correct hrefs
-    const expectedMobileLinks = [
-      { text: 'About', href: '#about' },
-      { text: 'Experience', href: '#exp' },
-      { text: 'Skills', href: '#skills' }
-    ];
-    
-    expectedMobileLinks.forEach(link => {
-      const linkElement = screen.getByRole('link', { name: link.text });
-      expect(linkElement).toHaveAttribute('href', link.href);
+    it('renders mobile menu links with correct attributes', () => {
+      render(<Navbar />);
+      
+      toggleMobileMenu();
+      
+      MOBILE_LINKS.forEach(({ text, href }) => {
+        const linkElement = screen.getByRole('link', { name: text });
+        expect(linkElement).toHaveAttribute('href', href);
+      });
     });
   });
 });

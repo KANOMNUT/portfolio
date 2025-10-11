@@ -92,19 +92,21 @@ const TimelineElement: React.FC<TimelineElementProps> = ({ title, company, locat
 
 const Experience: React.FC = () => {
   return (
-    <section className="mb-25 text-center sm:mb-25 text-black">
-      <h2 className="text-3xl mb-10 text-center font-mono">Work Experience</h2>
-      <div className="flex flex-col items-center justify-center font-mono">
-        <VerticalTimeline lineColor='darkgrey'>
-          {experienceData.map((experience, index) => (
-            <TimelineElement key={index} {...experience} />
-          ))}
-          <VerticalTimelineElement
-            iconStyle={{ background: 'rgb(255,255,255)' }}
-            icon={<MdStarOutline />}
-          />
-        </VerticalTimeline>
-      </div>
+    <section id='exp'> 
+      <section className="mb-25 text-center sm:mb-25 text-black">
+        <h2 className="text-3xl mb-10 text-center font-mono">Work Experience</h2>
+        <div className="flex flex-col items-center justify-center font-mono">
+          <VerticalTimeline lineColor='darkgrey'>
+            {experienceData.map((experience, index) => (
+              <TimelineElement key={index} {...experience} />
+            ))}
+            <VerticalTimelineElement
+              iconStyle={{ background: 'rgb(255,255,255)' }}
+              icon={<MdStarOutline />}
+            />
+          </VerticalTimeline>
+        </div>
+      </section>
     </section>
   );
 };

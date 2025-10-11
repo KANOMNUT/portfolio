@@ -25,3 +25,21 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* Fixed header height: keep in sync with Navbar height (h-20 -> 5rem)
+   We use a CSS variable so responsive adjustments are easy. */
+:root {
+  --header-height: 10rem;
+}
+
+/* When using fragment navigation (#about, #exp, #skills), browsers will snap the
+   element to the top. For fixed headers we need to offset that with scroll-padding-top. */
+html {
+  scroll-padding-top: var(--header-height);
+}
+
+/* Use scroll-margin-top on headings so fragment navigation (#about etc.) will
+   position headings below the fixed header without changing layout spacing. */
+h2, .section-heading {
+  scroll-margin-top: var(--header-height);
+}
