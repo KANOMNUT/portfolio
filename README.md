@@ -122,7 +122,7 @@ portfolio/
 
 - **Thanachai T.**
   - LinkedIn: [Thanachai T.](https://www.linkedin.com/in/thanachai-t-bb2622208/)
-  - GitLab: [@thanachai.tre](https://gitlab.com/thanachai.tre/)
+  - GitLab: [@thanachai-tre](https://gitlab.com/thanachai-tre)
 
 ## 📝 License
 
