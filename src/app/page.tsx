@@ -1,10 +1,10 @@
 import React from 'react';
-import Skills from 'src/components/Skills';
+import Skills from '@/components/Skills';
 import About from 'src/components/About';
 import Experience from '@/components/Experience';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import ButtonBackToTop from 'src/components/BackToTop';
+import ButtonBackToTop from '@/components/BackToTop';
 import SectionDivider from '@/components/SectionDivider';
 
 export default function Home(): React.ReactElement {
