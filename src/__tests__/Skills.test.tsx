@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Skills from '@/components/skills';
+import Skills from '@/components/Skills';
 import '@testing-library/jest-dom';
 
 // Mock react-icons
@@ -27,7 +27,7 @@ describe('Skills Component', () => {
       'Azure',
       'GCP',
       'Terraform',
-      'Gitlab',
+      'GitLab',
       'Git',
       'Kubernetes'
     ];

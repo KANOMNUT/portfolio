@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Experience from '@/components/expreience';
+import Experience from '@/components/Experience';
 import '@testing-library/jest-dom';
 
 // Mock react-icons
@@ -51,10 +51,19 @@ describe('Experience Component', () => {
     ];
     
     expectedJobs.forEach(job => {
-      expect(screen.getByText(job.title)).toBeInTheDocument();
+      // Use getAllByText for titles that may appear multiple times
+      const titleElements = screen.queryAllByText(job.title);
+      expect(titleElements.length).toBeGreaterThan(0);
       expect(screen.getByText(job.company)).toBeInTheDocument();
-      expect(screen.getByText(job.location)).toBeInTheDocument();
-      expect(screen.getByText(job.period)).toBeInTheDocument();
+      // Multiple jobs can have same location, so use queryAllByText
+      const locationElements = screen.queryAllByText(job.location);
+      expect(locationElements.length).toBeGreaterThan(0);
+      // Period is in data-date attribute, not in text content
+      const periodElements = screen.queryAllByTestId('timeline-element');
+      const hasPeriod = Array.from(periodElements).some(el =>
+        el.getAttribute('data-date') === job.period
+      );
+      expect(hasPeriod).toBe(true);
     });
   });
 
@@ -62,7 +71,7 @@ describe('Experience Component', () => {
     render(<Experience />);
     
     const expectedDescriptions = [
-      "Managed Google Cloud Platform and Gitlab DevSeOps CI/CD pipelines with ArgoCD",
+      "Managed Google Cloud Platform and GitLab DevSecOps CI/CD pipelines with ArgoCD",
       "Managed hybrid cloud infrastructure on Azure integrated with on-premises VMware, and deployed and managed applications on AKS clusters.",
       "Managed K8s clusters and Middle-ware Applications in On-Prem Environment."
     ];

@@ -4,26 +4,17 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 17, 24, 39;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
 }
 
 /* Fixed header height: keep in sync with Navbar height (h-20 -> 5rem)
@@ -42,4 +33,30 @@ html {
    position headings below the fixed header without changing layout spacing. */
 h2, .section-heading {
   scroll-margin-top: var(--header-height);
+}
+
+/* Dark mode styles for react-vertical-timeline */
+.dark .vertical-timeline-element-content {
+  background: rgb(31, 41, 55) !important;
+  border: 1px solid rgba(75, 85, 99, 0.5) !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark .vertical-timeline-element-content-arrow {
+  border-right: 7px solid rgb(31, 41, 55) !important;
+}
+
+.dark .vertical-timeline-element-icon {
+  background: rgb(31, 41, 55) !important;
+  box-shadow: 0 0 0 4px rgb(31, 41, 55), inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05) !important;
+  color: rgb(209, 213, 219) !important;
+}
+
+.dark .vertical-timeline-element-date {
+  color: rgb(209, 213, 219) !important;
+}
+
+/* Remove background from star icon at end of timeline */
+.dark .vertical-timeline::before {
+  background: rgb(107, 114, 128) !important;
 }

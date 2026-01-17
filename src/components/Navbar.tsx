@@ -1,5 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import { BsSun, BsMoon } from 'react-icons/bs';
+import { useTheme } from '@/hooks/useTheme';
 
 interface NavLinkProps {
   to: string;
@@ -27,9 +29,9 @@ function MobileNav({ open, setOpen }: MobileNavProps): React.ReactElement {
       role="dialog"
       aria-hidden={!open}
       aria-label="Mobile navigation"
-      className={`absolute top-0 left-0 h-screen w-screen bg-white transform ${open ? "-translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out filter drop-shadow-md `}
+      className={`absolute top-0 left-0 h-screen w-screen bg-white dark:bg-gray-900 transform ${open ? "-translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out filter drop-shadow-md `}
     >
-      <nav className="flex flex-col ml-14 mt-20 text-black text-xl font-mono text-left" onClick={() => setOpen(false)}>
+      <nav className="flex flex-col ml-14 mt-20 text-black dark:text-white text-xl font-mono text-left" onClick={() => setOpen(false)}>
         <a className="py-3" href="#about">About</a>
         <a className="py-3" href="#exp">Experience</a>
         <a className="py-3" href="#skills">Skills</a>
@@ -42,6 +44,7 @@ function MobileNav({ open, setOpen }: MobileNavProps): React.ReactElement {
 export default function Navbar(): React.ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const [sticky, setSticky] = useState<boolean>(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -79,9 +82,9 @@ export default function Navbar(): React.ReactElement {
   }, [open]);
 
   return (
-    <nav className={`flex w-full filter drop-shadow-md bg-white px-5 py-4 h-20 items-center ${sticky ? 'fixed top-0' : ''} z-50`}>
+    <nav className={`flex w-full filter drop-shadow-md bg-white dark:bg-gray-900 px-5 py-4 h-20 items-center ${sticky ? 'fixed top-0' : ''} z-50`}>
       <div className="w-full flex justify-center items-center text-xl">
-        <div className="hidden md:flex text-black font-mono">
+        <div className="hidden md:flex text-black dark:text-white font-mono">
           <NavLink to="#about">ABOUT</NavLink>
           <NavLink to="#exp">WORK EXPERIENCE</NavLink>
           <NavLink to="#skills">SKILLS</NavLink>
@@ -89,6 +92,22 @@ export default function Navbar(): React.ReactElement {
         </div>
         <MobileNav open={open} setOpen={setOpen} />
       </div>
+
+      {/* Theme Toggle Button */}
+      <button
+        onClick={toggleTheme}
+        className="mr-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+        aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+        type="button"
+      >
+        {theme === 'light' ? (
+          <BsMoon className="w-5 h-5 text-gray-800 dark:text-gray-200" />
+        ) : (
+          <BsSun className="w-5 h-5 text-gray-800 dark:text-gray-200" />
+        )}
+      </button>
+
+      {/* Mobile Menu Hamburger */}
       <button
         className="z-50 flex relative w-8 h-8 flex-col justify-between items-center md:hidden bg-transparent border-none p-0"
         onClick={() => setOpen(!open)}
@@ -102,9 +121,9 @@ export default function Navbar(): React.ReactElement {
         }}
       >
         {/* hamburger button */}
-        <span className={`h-1 w-full bg-black rounded-lg transform transition duration-300 ease-in-out ${open ? "w-0" : "w-full"}`} />
-        <span className={`h-1 w-full bg-black rounded-lg transition-all duration-300 ease-in-out ${open ? "w-0" : "w-full"}`} />
-        <span className={`h-1 w-full bg-black rounded-lg transform transition duration-300 ease-in-out ${open ? "w-0" : "w-full"}`} />
+        <span className={`h-1 w-full bg-black dark:bg-white rounded-lg transform transition duration-300 ease-in-out ${open ? "w-0" : "w-full"}`} />
+        <span className={`h-1 w-full bg-black dark:bg-white rounded-lg transition-all duration-300 ease-in-out ${open ? "w-0" : "w-full"}`} />
+        <span className={`h-1 w-full bg-black dark:bg-white rounded-lg transform transition duration-300 ease-in-out ${open ? "w-0" : "w-full"}`} />
       </button>
     </nav>
   );

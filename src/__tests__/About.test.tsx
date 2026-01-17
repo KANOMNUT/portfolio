@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import About from '@/components/about';
+import About from '@/components/About';
 import '@testing-library/jest-dom';
 
 // Test utilities and constants

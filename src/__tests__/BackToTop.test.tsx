@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import ButtonBackToTop from '@/components/backtotop';
+import ButtonBackToTop from '@/components/BackToTop';
 import '@testing-library/jest-dom';
 
 // Mock window.pageYOffset and scroll events

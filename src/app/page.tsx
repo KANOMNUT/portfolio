@@ -1,20 +1,20 @@
 import React from 'react';
-import Skills from "@/components/skills";
-import About from "@/components/about";
-import Expreience from "@/components/expreience";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ButtonBackToTop from "@/components/backtotop";
-import SectionDivider from "@/components/section-divider";
+import Skills from '@/components/Skills';
+import About from '@/components/About';
+import Experience from '@/components/Experience';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ButtonBackToTop from '@/components/BackToTop';
+import SectionDivider from '@/components/SectionDivider';
 
 export default function Home(): React.ReactElement {
   return (
-    <div className="bg-slate-100 w-full min-h-screen flex flex-col items-center">
+    <div className="bg-slate-100 dark:bg-gray-700 w-full min-h-screen flex flex-col items-center">
       <Navbar />
       <div className="max-w-screen-lg w-full flex-grow flex flex-col items-center">
         <About />
         <SectionDivider />
-        <Expreience />
+        <Experience />
         <SectionDivider />
         <Skills />
         <SectionDivider />
